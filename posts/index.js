@@ -22,13 +22,18 @@ app.post("/posts", async (req, res) => {
     title,
   };
 
-  await axios.post("http://localhost:4005/events", {
-    type: "PostCreated",
-    data: {
-      id,
-      title,
-    },
-  });
+  await axios
+    .post("http://event-bus-service:4005/events", {
+      // .post("http://localhost:4005/events", {
+      type: "PostCreated",
+      data: {
+        id,
+        title,
+      },
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 
   res.status(201).send(posts[id]);
 });
@@ -39,6 +44,6 @@ app.post("/events", (req, res) => {
 });
 
 app.listen(4000, () => {
-  console.log("v0.0.3")
+  console.log("v0.0.3");
   console.log("Listening on 4000...");
 });
