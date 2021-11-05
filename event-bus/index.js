@@ -14,14 +14,11 @@ app.post("/events", (req, res) => {
   // WARNING!! Absolutely no error handling ahead!
 
   axios
-    .post("http://posts-srv:4000/events", event)
+    .post("http://posts-service:4000/events", event)
     .catch((error) => console.log(error.message));
-  // axios.post("http://localhost:4000/events", event);
-  // axios.post("http://localhost:4001/events", event);
-  // axios.post("http://localhost:4002/events", event);
-  // axios.post("http://localhost:4003/events", event).catch((error) => {
-  //   console.log(error.message);
-  // });
+  axios.post("http://comments-service:4001/events", event);
+  axios.post("http://query-service:4002/events", event);
+  axios.post("http://moderation-service:4003/events", event);
 
   console.log("Sent event:", event);
   res.send({ status: "OK" });
